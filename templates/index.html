@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI CyberShield — educational cybersecurity analysis tools: password strength, phishing URL detection, and file threat scanning.">
+<meta name="theme-color" content="#0b0f0e">
+<title>AI CyberShield</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+
+<div class="shell">
+
+  <header class="header">
+    <div class="header-brand">
+      <span class="brand-mark" aria-hidden="true">&gt;_</span>
+      <div>
+        <h1>AI CyberShield</h1>
+        <p class="tagline">Console-grade checks for passwords, links, and files</p>
+      </div>
+    </div>
+    <div class="header-status" id="statusPill">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="statusText">Initializing…</span>
+    </div>
+  </header>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <ul class="nav-menu" role="tablist">
+      <li><a href="#home" class="nav-link active" data-section="home" role="tab" aria-selected="true">Home</a></li>
+      <li><a href="#password" class="nav-link" data-section="password" role="tab" aria-selected="false">Password</a></li>
+      <li><a href="#phishing" class="nav-link" data-section="phishing" role="tab" aria-selected="false">Phishing</a></li>
+      <li><a href="#file-scanner" class="nav-link" data-section="file-scanner" role="tab" aria-selected="false">File Scan</a></li>
+      <li><a href="#report" class="nav-link" data-section="report" role="tab" aria-selected="false">Report</a></li>
+      <li><a href="#tips" class="nav-link" data-section="tips" role="tab" aria-selected="false">Tips</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+      <div class="section-header">
+        <p class="eyebrow">Overview</p>
+        <h2>Three checks. One console.</h2>
+        <p>Run quick, transparent heuristic analysis before you type a password, click a link, or open a file.</p>
+      </div>
+
+      <div class="card-grid">
+        <button class="tool-card" data-goto="password">
+          <span class="tool-card-icon" aria-hidden="true">01</span>
+          <span class="tool-card-title">Password Strength</span>
+          <span class="tool-card-desc">Entropy, breach patterns, and composition scoring with a crack-time estimate.</span>
+        </button>
+        <button class="tool-card" data-goto="phishing">
+          <span class="tool-card-icon" aria-hidden="true">02</span>
+          <span class="tool-card-title">Phishing Detector</span>
+          <span class="tool-card-desc">13 weighted heuristics: typosquatting, punycode, IP hosts, and more.</span>
+        </button>
+        <button class="tool-card" data-goto="file-scanner">
+          <span class="tool-card-icon" aria-hidden="true">03</span>
+          <span class="tool-card-title">File Scanner</span>
+          <span class="tool-card-desc">Filename heuristics plus real content signature checks on upload.</span>
+        </button>
+      </div>
+
+      <div class="notice-box">
+        <p><strong>Educational tool.</strong> AI CyberShield provides heuristic analysis for learning purposes. It does not replace antivirus software, malware sandboxes, domain reputation services, or professional threat intelligence. Uploaded files are inspected for signatures only — never executed.</p>
+      </div>
+    </section>
+
+    <!-- PASSWORD -->
+    <section id="password" class="section hidden">
+      <div class="section-header">
+        <p class="eyebrow">01 / Password</p>
+        <h2>Password Strength Checker</h2>
+        <p>Analyzed locally in this request only. Nothing is stored or logged.</p>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrap">
+          <input type="password" id="passwordInput" class="input-field" placeholder="Enter a password to analyze" autocomplete="off" spellcheck="false" aria-label="Password" maxlength="256">
+          <button type="button" class="input-toggle" id="togglePassword" aria-label="Show password">show</button>
+        </div>
+        <button type="button" class="btn-primary" id="checkPasswordBtn">Analyze</button>
+      </div>
+
+      <div id="passwordResult" class="result-container hidden" aria-live="polite"></div>
+
+      <div class="info-box">
+        <h3>Guidelines</h3>
+        <ul>
+          <li>Use at least 12 characters when possible — 16+ is stronger still.</li>
+          <li>Mix uppercase, lowercase, numbers, and symbols, or use a long passphrase.</li>
+          <li>Avoid common passwords, keyboard walks, and obvious sequences.</li>
+          <li>Never reuse the same password across important accounts.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PHISHING -->
+    <section id="phishing" class="section hidden">
+      <div class="section-header">
+        <p class="eyebrow">02 / Phishing</p>
+        <h2>Phishing URL Detector</h2>
+        <p>Checks a URL against 13 weighted heuristics used by real phishing campaigns.</p>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="urlInput" class="input-field" placeholder="example.com or https://example.com/path" autocomplete="off" spellcheck="false" aria-label="Website URL" maxlength="2048">
+        <button type="button" class="btn-primary" id="checkPhishingBtn">Analyze</button>
+      </div>
+
+      <div id="phishingResult" class="result-container hidden" aria-live="polite"></div>
+
+      <div class="info-box">
+        <h3>Before clicking a link</h3>
+        <ul>
+          <li>Check the spelling of the domain name carefully.</li>
+          <li>Be wary of urgent requests for information.</li>
+          <li>Confirm the site uses HTTPS — but note HTTPS alone doesn't guarantee safety.</li>
+          <li>Never enter passwords on a site you reached via an unsolicited link.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FILE SCANNER -->
+    <section id="file-scanner" class="section hidden">
+      <div class="section-header">
+        <p class="eyebrow">03 / File Scan</p>
+        <h2>File Threat Scanner</h2>
+        <p>Check a filename only, or upload a file for signature-based content inspection. Files are never executed.</p>
+      </div>
+
+      <div class="scan-mode-toggle" role="tablist" aria-label="Scan mode">
+        <button type="button" class="mode-btn active" data-mode="filename" role="tab" aria-selected="true">Filename only</button>
+        <button type="button" class="mode-btn" data-mode="upload" role="tab" aria-selected="false">Upload file</button>
+      </div>
+
+      <div class="input-group" id="filenameModeGroup">
+        <input type="text" id="fileInput" class="input-field" placeholder="e.g. invoice.pdf.exe" autocomplete="off" spellcheck="false" aria-label="Filename" maxlength="512">
+        <button type="button" class="btn-primary" id="scanFilenameBtn">Scan</button>
+      </div>
+
+      <div class="input-group hidden" id="uploadModeGroup">
+        <label class="dropzone" id="dropzone" for="fileUploadInput">
+          <input type="file" id="fileUploadInput" class="visually-hidden">
+          <span class="dropzone-title" id="dropzoneTitle">Choose a file or drag it here</span>
+          <span class="dropzone-sub">Analyzed locally for this request only. Max 10&nbsp;MB. Never executed.</span>
+        </label>
+        <button type="button" class="btn-primary" id="scanUploadBtn" disabled>Scan File</button>
+      </div>
+
+      <div id="fileResult" class="result-container hidden" aria-live="polite"></div>
+
+      <div class="info-box">
+        <h3>File safety tips</h3>
+        <ul>
+          <li>Be cautious with executable files received unexpectedly.</li>
+          <li>Watch for double extensions such as <code>.pdf.exe</code>.</li>
+          <li>Don't open unknown attachments from untrusted sources.</li>
+          <li>Keep your OS and security software updated.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section id="report" class="section hidden">
+      <div class="section-header">
+        <p class="eyebrow">Summary</p>
+        <h2>Session Security Report</h2>
+        <p>Aggregates whichever checks you've run so far in this session.</p>
+      </div>
+
+      <div class="input-group">
+        <button type="button" class="btn-primary" id="generateReportBtn">Generate Report</button>
+      </div>
+
+      <div id="reportResult" class="result-container hidden" aria-live="polite"></div>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips" class="section hidden">
+      <div class="section-header">
+        <p class="eyebrow">Reference</p>
+        <h2>Cybersecurity Tips</h2>
+        <p>Practical recommendations for everyday online security.</p>
+      </div>
+
+      <div id="tipsResult" class="result-container hidden" aria-live="polite"></div>
+
+      <noscript>
+        <div class="info-box">
+          <h3>JavaScript required</h3>
+          <p>Please enable JavaScript to load the cybersecurity tips.</p>
+        </div>
+      </noscript>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p><strong>AI CyberShield</strong> — Educational Cybersecurity Toolkit</p>
+    <p>Version {{ app_version }} · Heuristic analysis only, not a substitute for professional tools</p>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+            </html>
+      
