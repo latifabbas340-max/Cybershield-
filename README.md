@@ -1,6 +1,6 @@
-# AI CyberShield
+# CyberCheck 
 
-AI CyberShield is an educational Flask cybersecurity toolkit with three analysis tools and a session-level security report:
+CyberCheck is an educational Flask cybersecurity toolkit with three analysis tools and a session-level security report:
 
 - **Password strength analysis** — composition scoring, entropy estimate, breach/common-password detection, keyboard-walk and sequence detection, and an educational crack-time estimate.
 - **Phishing URL detection** — 13 weighted heuristics: IP-address hosts, punycode/IDN spoofing, typosquatting against major brands, `@`-obfuscation, excessive subdomains, non-standard ports, and more.
@@ -19,7 +19,7 @@ AI CyberShield is an educational Flask cybersecurity toolkit with three analysis
 ## Project structure
 
 ```text
-AI-CyberShield/
+CyberCheck/
 ├── app.py
 ├── modules/
 │   ├── __init__.py
