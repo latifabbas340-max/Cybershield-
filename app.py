@@ -1,5 +1,5 @@
 """
-AI CyberShield — Flask application entry point.
+CyberCheck — Flask application entry point.
 
 Educational cybersecurity toolkit: password strength analysis,
 phishing URL heuristics, and file/filename threat scanning.
